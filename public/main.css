@@ -1,0 +1,17 @@
+#connection-status {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    padding: 0;
+    margin: 20px;
+    display: block;
+}
+
+#connection-status.connected {
+    background-color: green;
+}
+
+#connection-status.disconnected {
+    background-color: red;
+}

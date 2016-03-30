@@ -1,9 +1,10 @@
-var React   = require('react');
+var React     = require('react');
+var ReactDOM  = require('react-dom');
 
 var Join = React.createClass({
   join() {
-    var memberName = React.findDOMNode(this.refs.name).value;
-    alert('TODO: Join Member: ' + memberName);
+    var memberName = ReactDOM.findDOMNode(this.refs.name).value;
+    this.props.emit('join', {name: memberName});
   },
   render() {
     return (

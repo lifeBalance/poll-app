@@ -18,6 +18,10 @@ var APP = React.createClass({
     this.socket.on('welcome', this.welcome);
   },
 
+  emit(eventName, payload) {
+    this.socket.emit(eventName, payload);
+  },
+
   connect() {
     this.setState({status: 'connected'});
     console.log('Connected to socket: %s.', this.socket.id);
@@ -34,9 +38,11 @@ var APP = React.createClass({
   render() {
     {/* When we nest components in the react-router, passing state from the parent component
         down to the children is a bit involved. It's done cloning the child component and
-        adding the props to the clone, which is gonna be the one we render. */}
+        passing the state to the clone(using the spread operator comes in handy),
+        which is gonna be the one we render.
+        The emit prop has to be passed explicitely */}
     var childrenWithProps = React.Children.map(this.props.children, (child) => {
-      return React.cloneElement(child, this.state);
+      return React.cloneElement(child, {...this.state, emit: this.emit});
     });
 
     return (

@@ -34,6 +34,7 @@ var APP = React.createClass({
     return (
       <div>
         <Header title={this.state.title} status={this.state.status} />
+        <div>{this.props.children}</div>
       </div>
     );
   }

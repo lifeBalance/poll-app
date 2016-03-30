@@ -6,7 +6,8 @@ var APP = React.createClass({
   getInitialState() {
     return {
       status: 'disconnected',
-      title: ''
+      title: '',
+      foo: 'foo'
     }
   },
 
@@ -31,10 +32,17 @@ var APP = React.createClass({
   },
 
   render() {
+    {/* When we nest components in the react-router, passing state from the parent component
+        down to the children is a bit involved. It's done cloning the child component and
+        adding the props to the clone, which is gonna be the one we render. */}
+    var childrenWithProps = React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, this.state);
+    });
+
     return (
       <div>
         <Header title={this.state.title} status={this.state.status} />
-        <div>{this.props.children}</div>
+        {childrenWithProps}
       </div>
     );
   }

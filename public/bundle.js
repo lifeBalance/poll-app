@@ -24759,7 +24759,8 @@
 	  getInitialState: function getInitialState() {
 	    return {
 	      status: 'disconnected',
-	      title: ''
+	      title: '',
+	      foo: 'foo'
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
@@ -24779,15 +24780,20 @@
 	    this.setState({ title: serverState.title });
 	  },
 	  render: function render() {
+	    var _this = this;
+
+	    {/* When we nest components in the react-router, passing state from the parent component
+	         down to the children is a bit involved. It's done cloning the child component and
+	         adding the props to the clone, which is gonna be the one we render. */}
+	    var childrenWithProps = React.Children.map(this.props.children, function (child) {
+	      return React.cloneElement(child, _this.state);
+	    });
+
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(Header, { title: this.state.title, status: this.state.status }),
-	      React.createElement(
-	        'div',
-	        null,
-	        this.props.children
-	      )
+	      childrenWithProps
 	    );
 	  }
 	});
@@ -32295,7 +32301,8 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      'Audience'
+	      'Audience: ',
+	      this.props.title
 	    );
 	  }
 	});
@@ -32316,7 +32323,8 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      'Speaker'
+	      'Speaker: ',
+	      this.props.status
 	    );
 	  }
 	});
@@ -32337,7 +32345,8 @@
 	    return React.createElement(
 	      'h1',
 	      null,
-	      'Board'
+	      'Board: ',
+	      this.props.foo
 	    );
 	  }
 	});

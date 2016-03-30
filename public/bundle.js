@@ -57,9 +57,9 @@
 
 	var APP = __webpack_require__(216);
 	var Audience = __webpack_require__(267);
-	var Speaker = __webpack_require__(268);
-	var Board = __webpack_require__(269);
-	var Whoops = __webpack_require__(270);
+	var Speaker = __webpack_require__(269);
+	var Board = __webpack_require__(270);
+	var Whoops = __webpack_require__(271);
 
 	var routes = React.createElement(
 	  Route,
@@ -32296,15 +32296,23 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var Display = __webpack_require__(268);
 
 	var Audience = React.createClass({
 	  displayName: 'Audience',
 	  render: function render() {
 	    return React.createElement(
-	      'h1',
+	      'div',
 	      null,
-	      'Audience: ',
-	      this.props.title
+	      React.createElement(
+	        Display,
+	        { 'if': this.props.status === 'connected' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Join the session!'
+	        )
+	      )
 	    );
 	  }
 	});
@@ -32313,6 +32321,27 @@
 
 /***/ },
 /* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var Display = React.createClass({
+	  displayName: 'Display',
+	  render: function render() {
+	    return this.props.if ? React.createElement(
+	      'div',
+	      null,
+	      this.props.children
+	    ) : null;
+	  }
+	});
+
+	module.exports = Display;
+
+/***/ },
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32334,7 +32363,7 @@
 	module.exports = Speaker;
 
 /***/ },
-/* 269 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32356,7 +32385,7 @@
 	module.exports = Board;
 
 /***/ },
-/* 270 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

@@ -59,13 +59,15 @@
 	var Audience = __webpack_require__(267);
 	var Speaker = __webpack_require__(268);
 	var Board = __webpack_require__(269);
+	var Whoops = __webpack_require__(270);
 
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: APP },
 	  React.createElement(IndexRoute, { component: Audience }),
 	  React.createElement(Route, { path: 'speaker', component: Speaker }),
-	  React.createElement(Route, { path: 'board', component: Board })
+	  React.createElement(Route, { path: 'board', component: Board }),
+	  React.createElement(Route, { path: '*', component: Whoops })
 	);
 
 	var mount = document.getElementById('react-container');
@@ -32352,6 +32354,74 @@
 	});
 
 	module.exports = Board;
+
+/***/ },
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var ReactRouter = __webpack_require__(159);
+	var Link = ReactRouter.Link;
+
+	var Whoops = React.createClass({
+	  displayName: 'Whoops',
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'not-found' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Whoops...'
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'We cannot find the page you have requested :( '
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'Maybe you were looking for some of these: '
+	      ),
+	      React.createElement(
+	        'ul',
+	        null,
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: '/' },
+	            'Join as Audience'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: '/speaker' },
+	            'Start the presentation'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: '/board' },
+	            'View the board'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Whoops;
 
 /***/ }
 /******/ ]);

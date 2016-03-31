@@ -23,6 +23,11 @@ io.sockets.on('connection', function (socket) {
       audience.splice(audience.indexOf(member), 1);
       io.sockets.emit('audience', audience);
       console.log('%s left the audience. %s remain in the audience', member.name, audience.length);
+    } else if (this.id === speaker.id) {
+      console.log('Speaker %s has bounced. Presentation "%s" is over bitches!', speaker.name, title);
+      speaker = {};
+      title = 'Untitled Presentation';
+      io.sockets.emit('end', { title: title, speaker: '' });
     }
 
     connections.splice(connections.indexOf(socket), 1);
@@ -35,7 +40,7 @@ io.sockets.on('connection', function (socket) {
     var newMember = {
       id: this.id,
       name: payload.name,
-      type: 'member'
+      type: 'audience'
     };
     this.emit('joined', newMember);
     audience.push(newMember);

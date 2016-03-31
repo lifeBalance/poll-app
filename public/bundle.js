@@ -24764,7 +24764,7 @@
 	    return {
 	      status: 'disconnected',
 	      title: '',
-	      foo: 'foo'
+	      member: {}
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
@@ -24772,6 +24772,7 @@
 	    this.socket.on('connect', this.connect);
 	    this.socket.on('disconnect', this.disconnect);
 	    this.socket.on('welcome', this.welcome);
+	    this.socket.on('joined', this.joined);
 	  },
 	  emit: function emit(eventName, payload) {
 	    this.socket.emit(eventName, payload);
@@ -24785,6 +24786,9 @@
 	  },
 	  welcome: function welcome(serverState) {
 	    this.setState({ title: serverState.title });
+	  },
+	  joined: function joined(member) {
+	    this.setState({ member: member });
 	  },
 	  render: function render() {
 	    var _this = this;
@@ -32316,11 +32320,30 @@
 	        Display,
 	        { 'if': this.props.status === 'connected' },
 	        React.createElement(
-	          'h1',
-	          null,
-	          'Join the session!'
+	          Display,
+	          { 'if': this.props.member.name },
+	          React.createElement(
+	            'h2',
+	            null,
+	            'Welcome ',
+	            this.props.member.name
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            'Questions will appear here.'
+	          )
 	        ),
-	        React.createElement(Join, { emit: this.props.emit })
+	        React.createElement(
+	          Display,
+	          { 'if': !this.props.member.name },
+	          React.createElement(
+	            'h1',
+	            null,
+	            'Join the session!'
+	          ),
+	          React.createElement(Join, { emit: this.props.emit })
+	        )
 	      )
 	    );
 	  }

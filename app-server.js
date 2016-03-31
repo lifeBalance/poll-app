@@ -21,6 +21,11 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('join', function (payload) {
+    var newMember = {
+      id: this.id,
+      name: payload.name
+    };
+    this.emit('joined', newMember);
     console.log("Audience joined by %s:", payload.name);
   });
 

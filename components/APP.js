@@ -26,6 +26,10 @@ var APP = React.createClass({
   },
 
   connect() {
+    var member = (sessionStorage.member) ? JSON.parse(sessionStorage.member) : null;
+    if (member) {
+      this.emit('join', member);
+    }
     this.setState({status: 'connected'});
     console.log('Connected to socket: %s.', this.socket.id);
   },
@@ -39,6 +43,7 @@ var APP = React.createClass({
   },
 
   joined(member) {
+    sessionStorage.member = JSON.stringify(member);
     this.setState({member: member});
   },
 

@@ -15,7 +15,8 @@ var Header = React.createClass({
     return (
       <header className="row">
 				<div className="col-xs-10">
-					<h1>{this.props.title}</h1>
+					<h1>Presentation: {this.props.title}</h1>
+          <h2>Speaker: {this.props.speaker}</h2>
 				</div>
 				<div className="col-xs-2">
 					<span id="connection-status" className={this.props.status}></span>

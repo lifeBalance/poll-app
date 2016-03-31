@@ -5,6 +5,7 @@ var app = express();
 var connections = [];
 var title = 'Untitled Presentation';
 var audience = [];
+var speaker = {};
 
 app.use(express.static('./public'));
 app.use(express.static('./node_modules/bootstrap/dist'));
@@ -29,10 +30,12 @@ io.sockets.on('connection', function (socket) {
     console.log('Disconnected socket %s. %s connections remaining.', socket.id, connections.length);
   });
 
+  // When a member of the audience joins the app
   socket.on('join', function (payload) {
     var newMember = {
       id: this.id,
-      name: payload.name
+      name: payload.name,
+      type: 'member'
     };
     this.emit('joined', newMember);
     audience.push(newMember);
@@ -40,8 +43,21 @@ io.sockets.on('connection', function (socket) {
     console.log("Audience joined by: %s", payload.name);
   });
 
+  // When a speaker starts a presentation
+  socket.on('start', function (payload) {
+    speaker.name = payload.name;
+    speaker.id = this.id;
+    speaker.type = 'speaker';
+    title = payload.title;
+    this.emit('joined', speaker);
+    io.sockets.emit('start', { title: title, speaker: speaker.name });
+    console.log('Presentation: "%s" started. Lecturer: %s ', title, speaker.name);
+  });
+
   socket.emit('welcome', {
-    title: title
+    title: title,
+    audience: audience,
+    speaker: speaker.name
   });
 
   connections.push(socket);

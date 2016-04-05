@@ -58,8 +58,8 @@
 	var APP = __webpack_require__(216);
 	var Audience = __webpack_require__(267);
 	var Speaker = __webpack_require__(270);
-	var Board = __webpack_require__(273);
-	var Whoops = __webpack_require__(274);
+	var Board = __webpack_require__(274);
+	var Whoops = __webpack_require__(275);
 	
 	var routes = React.createElement(
 	  Route,
@@ -24766,7 +24766,8 @@
 	      title: '',
 	      member: {},
 	      audience: [],
-	      speaker: ''
+	      speaker: '',
+	      questions: []
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
@@ -32470,6 +32471,7 @@
 	var Display = __webpack_require__(268);
 	var JoinSpeaker = __webpack_require__(271);
 	var Attendance = __webpack_require__(272);
+	var Questions = __webpack_require__(273);
 	
 	var Speaker = React.createClass({
 	  displayName: 'Speaker',
@@ -32483,11 +32485,7 @@
 	        React.createElement(
 	          Display,
 	          { 'if': this.props.member.name && this.props.member.type === 'speaker' },
-	          React.createElement(
-	            'p',
-	            null,
-	            'Questions'
-	          ),
+	          React.createElement(Questions, { questions: this.props.questions }),
 	          React.createElement(Attendance, { audience: this.props.audience })
 	        ),
 	        React.createElement(
@@ -32636,6 +32634,43 @@
 	
 	var React = __webpack_require__(1);
 	
+	var Questions = React.createClass({
+	  displayName: 'Questions',
+	  addQuestion: function addQuestion(question, i) {
+	    return React.createElement(
+	      'div',
+	      { key: i, className: 'col-xs-12 col-sm-6 col-md-3' },
+	      React.createElement(
+	        'span',
+	        null,
+	        question.q
+	      )
+	    );
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'questions', className: 'row' },
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Questions'
+	      ),
+	      this.props.questions.map(this.addQuestion)
+	    );
+	  }
+	});
+	
+	module.exports = Questions;
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
 	var Board = React.createClass({
 	  displayName: 'Board',
 	  render: function render() {
@@ -32651,7 +32686,7 @@
 	module.exports = Board;
 
 /***/ },
-/* 274 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

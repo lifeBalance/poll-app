@@ -1,6 +1,7 @@
 var express = require('express');
 var _ = require('underscore');
 var app = express();
+var util = require('util');
 
 var connections = [];
 var title = 'Untitled Presentation';
@@ -8,6 +9,12 @@ var audience = [];
 var speaker = {};
 var questions = require('./app-questions');
 var currentQuestion = false;
+var results = {
+  a: 0,
+  b: 0,
+  c: 0,
+  d: 0
+};
 
 app.use(express.static('./public'));
 app.use(express.static('./node_modules/bootstrap/dist'));
@@ -66,8 +73,15 @@ io.sockets.on('connection', function (socket) {
   // When speaker asks a question
   socket.on('ask', function (question) {
     currentQuestion = question;
+    results = {a: 0, b: 0, c: 0, d: 0};
     io.sockets.emit('ask', currentQuestion);
     console.log('Question: "%s"', question.q);
+  });
+
+  // When speaker answers a question
+  socket.on('answer', function (payload) {
+    results[payload.choice]++;
+    console.log('Answer: "%s" - Possible answers: %s', payload.choice, util.inspect(results));
   });
 
   socket.emit('welcome', {

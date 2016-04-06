@@ -75,6 +75,7 @@ var APP = React.createClass({
   },
 
   ask(question) {
+    sessionStorage.answer = '';
     this.setState({ currentQuestion: question});
   },
 

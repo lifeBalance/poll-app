@@ -7,6 +7,7 @@ var title = 'Untitled Presentation';
 var audience = [];
 var speaker = {};
 var questions = require('./app-questions');
+var currentQuestion = false;
 
 app.use(express.static('./public'));
 app.use(express.static('./node_modules/bootstrap/dist'));
@@ -41,7 +42,9 @@ io.sockets.on('connection', function (socket) {
     var newMember = {
       id: this.id,
       name: payload.name,
-      type: 'audience'
+      type: 'audience',
+      questions: questions,
+      currentQuestion: currentQuestion
     };
     this.emit('joined', newMember);
     audience.push(newMember);
@@ -58,6 +61,13 @@ io.sockets.on('connection', function (socket) {
     this.emit('joined', speaker);
     io.sockets.emit('start', { title: title, speaker: speaker.name });
     console.log('Presentation: "%s" started. Lecturer: %s ', title, speaker.name);
+  });
+
+  // When speaker asks a question
+  socket.on('ask', function (question) {
+    currentQuestion = question;
+    io.sockets.emit('ask', currentQuestion);
+    console.log('Question: "%s"', question.q);
   });
 
   socket.emit('welcome', {

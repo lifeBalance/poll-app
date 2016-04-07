@@ -28,6 +28,7 @@ var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
   socket.once('disconnect', function () {
     var member = _.findWhere(audience, {id: this.id});
+
     if (member) {
       audience.splice(audience.indexOf(member), 1);
       io.sockets.emit('audience', audience);
@@ -49,9 +50,7 @@ io.sockets.on('connection', function (socket) {
     var newMember = {
       id: this.id,
       name: payload.name,
-      type: 'audience',
-      questions: questions,
-      currentQuestion: currentQuestion
+      type: 'audience'
     };
     this.emit('joined', newMember);
     audience.push(newMember);

@@ -81,6 +81,7 @@ io.sockets.on('connection', function (socket) {
   // When speaker answers a question
   socket.on('answer', function (payload) {
     results[payload.choice]++;
+    io.sockets.emit('results', results);
     console.log('Answer: "%s" - Possible answers: %s', payload.choice, util.inspect(results));
   });
 
@@ -88,7 +89,9 @@ io.sockets.on('connection', function (socket) {
     title: title,
     audience: audience,
     speaker: speaker.name,
-    questions: questions
+    questions: questions,
+    currentQuestion: currentQuestion,
+    results: results
   });
 
   connections.push(socket);
